@@ -9,7 +9,7 @@
 # Description:       Enable service provided by daemon.
 ### END INIT INFO
 
-dir="/usr/local/bin/convoy"
+dir="/usr/local/bin"
 cmd="convoy daemon --drivers vfs --driver-opts vfs.path=/convoy-nfs"
 user="root"
 name="convoy"
