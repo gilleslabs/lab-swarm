@@ -26,10 +26,10 @@ Vagrant.configure(2) do |config|
     d.vm.network "private_network", ip: "10.100.192.200"
     d.vm.provision :shell, path: "install-docker.sh"
 	d.vm.provision :shell, path: "enable-convoy.sh"
-	d.vm.provision :shell, path: "swarm-visualizer.sh"
-    d.vm.provision :shell, inline: "sudo docker swarm init --advertise-addr 10.100.192.200"
+	d.vm.provision :shell, inline: "sudo docker swarm init --advertise-addr 10.100.192.200"
     d.vm.provision :shell, inline: "docker swarm join-token -q worker >/vagrant/worker-token"
 	d.vm.provision :shell, inline: "docker swarm join-token -q manager >/vagrant/manager-token"
+	d.vm.provision :shell, path: "swarm-visualizer.sh"
     d.vm.provider "virtualbox" do |v|
       v.memory = 1024
     end
