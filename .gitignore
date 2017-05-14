@@ -1,0 +1,5 @@
+# vagrant stuff
+/.vagrant
+worker-token
+manager-token
+
