@@ -1,0 +1,33 @@
+version: "3"
+services:
+  wordpress:
+    image: wordpress
+    deploy:
+     labels:
+      - "traefik.port=80"
+      - "traefik.docker.network=traefik-net"
+      - "traefik.frontend.rule=Host:wordpress.example.com"
+    environment:
+       - WORDPRESS_DB_PASSWORD=pAssw0rd
+    volumes:
+      - wp_data:/var/www/html
+    networks:
+      - wordpress
+      - traefik_traefik-net
+  mysql:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=pAssw0rd
+    networks:
+      - wordpress
+networks:
+  traefik_traefik-net:
+    external: true
+  wordpress:
+     driver: overlay
+     ipam:
+      config:
+      - subnet: 172.27.0.0/24
+volumes:
+  wp_data:
+   driver: convoy
