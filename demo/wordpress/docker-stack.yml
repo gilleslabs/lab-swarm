@@ -3,6 +3,8 @@ services:
   wordpress:
     image: wordpress
     deploy:
+     placement:
+        constraints: [node.role == worker]
      labels:
       - "traefik.port=80"
       - "traefik.docker.network=traefik-net"
@@ -20,6 +22,9 @@ services:
       - MYSQL_ROOT_PASSWORD=pAssw0rd
     networks:
       - wordpress
+    deploy:
+     placement:
+        constraints: [node.role == worker]
 networks:
   traefik_traefik-net:
     external: true

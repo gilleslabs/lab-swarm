@@ -3,6 +3,8 @@ services:
   web:
     image: emilevauge/whoami
     deploy:
+     placement:
+        constraints: [node.role == worker]
      labels:
       - "traefik.port=80"
       - "traefik.docker.network=traefik-net"
