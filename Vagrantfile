@@ -29,8 +29,7 @@ Vagrant.configure(2) do |config|
 	d.vm.provision :shell, inline: "sudo docker swarm init --advertise-addr 10.100.192.200"
     d.vm.provision :shell, inline: "docker swarm join-token -q worker >/vagrant/worker-token"
 	d.vm.provision :shell, inline: "docker swarm join-token -q manager >/vagrant/manager-token"
-	d.vm.provision :shell, path: "swarm-visualizer.sh"
-    d.vm.provider "virtualbox" do |v|
+	d.vm.provider "virtualbox" do |v|
       v.memory = 1024
     end
   end
