@@ -20,24 +20,31 @@ services:
         constraints: [node.role == manager]
   voting-app:
     image: gaiadocker/example-voting-app-vote:good
-    ports:
-      - 5000:80
     networks:
       - voteapp
+      - traefik_traefik-net
     depends_on:
       - redis
     deploy:
       mode: replicated
       replicas: 2
-      labels: [APP=VOTING]
+      labels:
+      - "traefik.port=80"
+      - "traefik.docker.network=traefik-net"
+      - "traefik.frontend.rule=Host:vote.example.com"
+      - "APP=VOTING"
       placement:
         constraints: [node.role == worker]
   result-app:
     image: gaiadocker/example-voting-app-result:latest
-    ports:
-      - 5001:80
+    deploy:
+     labels:
+      - "traefik.port=80"
+      - "traefik.docker.network=traefik-net"
+      - "traefik.frontend.rule=Host:vote-result.example.com"
     networks:
       - voteapp
+      - traefik_traefik-net
     depends_on:
       - db
   worker:
@@ -92,6 +99,8 @@ services:
         constraints: [node.role == manager]
 networks:
     voteapp:
+    traefik_traefik-net:
+      external: true
 volumes:
   db-data:
    driver: convoy

@@ -30,7 +30,7 @@ Vagrant.configure(2) do |config|
     d.vm.provision :shell, inline: "docker swarm join-token -q worker >/vagrant/worker-token"
 	d.vm.provision :shell, inline: "docker swarm join-token -q manager >/vagrant/manager-token"
 	d.vm.provider "virtualbox" do |v|
-      v.memory = 1024
+      v.memory = 2048
     end
   end
   
@@ -43,7 +43,7 @@ Vagrant.configure(2) do |config|
 	d.vm.provision :shell, path: "enable-convoy.sh"
     d.vm.provision :shell, inline: "docker swarm join --token $(cat /vagrant/manager-token) --advertise-addr 10.100.192.210 10.100.192.200:2377"
     d.vm.provider "virtualbox" do |v|
-      v.memory = 1024
+      v.memory = 2048
     end
   end
   
@@ -56,7 +56,7 @@ Vagrant.configure(2) do |config|
 	  d.vm.provision :shell, path: "enable-convoy.sh"
       d.vm.provision :shell, inline: "docker swarm join --token $(cat /vagrant/worker-token) --advertise-addr 10.100.192.20#{i} 10.100.192.200:2377"
       d.vm.provider "virtualbox" do |v|
-        v.memory = 1024
+        v.memory = 2048
       end
     end
   end
