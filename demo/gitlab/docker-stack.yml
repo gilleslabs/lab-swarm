@@ -7,6 +7,8 @@ services:
     GITLAB_OMNIBUS_CONFIG: |
       external_url 'http://gitlab.example.com'
   deploy:
+   placement:
+        constraints: [node.role == worker]
    labels:
       - "traefik.port=80"
       - "traefik.docker.network=traefik-net"
