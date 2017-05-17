@@ -1,26 +1,25 @@
 version: "3"
 services:
- gitlab:
-  image: 'gitlab/gitlab-ce:9.1.3-ce.0'
-  hostname: 'gitlab.example.com'
-  environment:
-    GITLAB_OMNIBUS_CONFIG: |
-      external_url 'http://gitlab.example.com'
-  deploy:
-   placement:
+  gitlab:
+    image: gitlab/gitlab-ce:9.1.3-ce.0
+    hostname: 'gitlab.example.com'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://gitlab.example.com'
+    deploy:
+     placement:
         constraints: [node.role == worker]
-   labels:
-      - "traefik.port=80"
+     labels:
+      - "traefik.port=8080"
       - "traefik.docker.network=traefik-net"
       - "traefik.frontend.rule=Host:gitlab.example.com"
-  networks:
+    networks:
       - gitlab
       - traefik_traefik-net
-  volumes:
-    -  gitlab:/etc/gitlab
-    -  gitlab_log:/var/log/gitlab
-    -  gitlab_var:/var/opt/gitlab
-
+    volumes:
+        -  gitlab:/etc/gitlab
+        -  gitlab_log:/var/log/gitlab
+        -  gitlab_var:/var/opt/gitlab
 networks:
   traefik_traefik-net:
     external: true

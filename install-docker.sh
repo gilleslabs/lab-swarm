@@ -61,7 +61,7 @@ sudo ufw allow 4789/udp
 ip=$(ifconfig eth1 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}')
 
 #### Make docker listening on unix socket and eth1
-sudo echo DOCKER_OPTS=\"-D --tls=false -H unix:///var/run/docker.sock -H tcp://$ip:2375\" >> /etc/default/docker
+sudo echo DOCKER_OPTS=\"-D --tls=false --experimental -H unix:///var/run/docker.sock -H tcp://$ip:2375\" >> /etc/default/docker
 sudo service docker restart
 
 echo "Build completed at      :" >> /tmp/build

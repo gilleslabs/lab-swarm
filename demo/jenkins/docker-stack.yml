@@ -1,0 +1,22 @@
+version: "3"
+services:
+  jenkins:
+    image: jenkins
+    deploy:
+     placement:
+        constraints: [node.role == worker]
+     labels:
+      - "traefik.port=8080"
+      - "traefik.docker.network=traefik-net"
+      - "traefik.frontend.rule=Host:jenkins.example.com"
+    networks:
+      - jenkins
+      - traefik_traefik-net
+networks:
+  traefik_traefik-net:
+    external: true
+  jenkins:
+     driver: overlay
+     ipam:
+      config:
+      - subnet: 172.29.0.0/24
