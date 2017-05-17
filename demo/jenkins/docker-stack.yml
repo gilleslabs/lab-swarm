@@ -1,13 +1,13 @@
 version: "3"
 services:
   jenkins:
-    image: jenkins
+    image: jenkinsci/jenkins
     deploy:
      placement:
         constraints: [node.role == worker]
      labels:
       - "traefik.port=8080"
-      - "traefik.docker.network=traefik-net"
+      - "traefik.docker.network=traefik_traefik-net"
       - "traefik.frontend.rule=Host:jenkins.example.com"
     networks:
       - jenkins

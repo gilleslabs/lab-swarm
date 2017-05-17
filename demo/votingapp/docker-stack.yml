@@ -30,7 +30,7 @@ services:
       replicas: 2
       labels:
       - "traefik.port=80"
-      - "traefik.docker.network=traefik-net"
+      - "traefik.docker.network=traefik_traefik-net"
       - "traefik.frontend.rule=Host:vote.example.com"
       - "APP=VOTING"
       placement:
@@ -40,7 +40,7 @@ services:
     deploy:
      labels:
       - "traefik.port=80"
-      - "traefik.docker.network=traefik-net"
+      - "traefik.docker.network=traefik_traefik-net"
       - "traefik.frontend.rule=Host:vote-result.example.com"
     networks:
       - voteapp

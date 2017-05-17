@@ -10,8 +10,8 @@ services:
      placement:
         constraints: [node.role == worker]
      labels:
-      - "traefik.port=8080"
-      - "traefik.docker.network=traefik-net"
+      - "traefik.port=80"
+      - "traefik.docker.network=traefik_traefik-net"
       - "traefik.frontend.rule=Host:gitlab.example.com"
     networks:
       - gitlab
