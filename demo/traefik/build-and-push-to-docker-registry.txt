@@ -1,0 +1,5 @@
+cd /vagrant/demo/traefik
+docker build -f /vagrant/demo/traefik/Dockerfile -t traefik./
+docker login
+docker tag traefik gtosi/traefik:latest
+docker push gtosi/traefik:latest

@@ -1,13 +1,14 @@
 version: "3"
 services:
   traefik:
-    image: traefik
+    image: gtosi/traefik 
     ports:
       - "80:80"
       - "8080:8080"
+      - "443:443"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
-    command: --docker --docker.swarmmode --docker.domain=example.com --docker.watch --web
+    command: --docker --docker.swarmmode --docker.domain=example.com --docker.watch --logLevel=DEBUG --web
     networks:
       - traefik-net
     deploy:
