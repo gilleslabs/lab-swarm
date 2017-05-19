@@ -3,6 +3,8 @@ version: '3'
 services:
   influx:
     image: influxdb
+    depends_on:
+     - cadvisor
     volumes:
       - influx:/var/lib/influxdb
     networks:
@@ -15,16 +17,22 @@ services:
 
   grafana:
     image: grafana/grafana
-    ports:
-      - 0.0.0.0:8081:3000
+    depends_on:
+     - cadvisor
+     - influxdb
     networks:
      - monitor
+     - traefik_traefik-net
     volumes:
       - grafana:/var/lib/grafana
     depends_on:
       - influx
     deploy:
       replicas: 1
+      labels:
+      - "traefik.port=3000"
+      - "traefik.docker.network=traefik_traefik-net"
+      - "traefik.frontend.rule=Host:grafana.example.com"
       placement:
         constraints:
           - node.role == manager

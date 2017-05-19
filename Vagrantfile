@@ -16,7 +16,7 @@ Vagrant.configure(2) do |config|
     d.vm.provision :shell, path: "install-docker.sh"
     d.vm.provision :shell, path: "install-nfs.sh"
     d.vm.provider "virtualbox" do |v|
-      v.memory = 1024
+      v.memory = 2048
 	  v.cpus = 2
     end
   end
@@ -44,7 +44,6 @@ Vagrant.configure(2) do |config|
     d.vm.provision :shell, path: "install-docker.sh"
 	d.vm.provision :shell, path: "enable-convoy.sh"
     d.vm.provision :shell, inline: "docker swarm join --token $(cat /vagrant/manager-token) --advertise-addr 10.100.192.210 10.100.192.200:2377"
-	d.vm.provision :shell, inline: "docker stack deploy -c /vagrant/demo/traefik/docker-stack.yml traefik"
     d.vm.provider "virtualbox" do |v|
       v.memory = 1024
 	  v.cpus = 2

@@ -2,6 +2,8 @@ version: "3"
 services:
   wordpress:
     image: wordpress
+    depends_on:
+     - mysql
     deploy:
      placement:
         constraints: [node.role == worker]

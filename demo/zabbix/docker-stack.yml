@@ -1,0 +1,61 @@
+version: "3"
+services:
+  dockbix-agent-xxl:
+    image: monitoringartist/dockbix-agent-xxl-limited:latest
+    privileged: true
+    deploy:
+     mode: global
+    environment:
+       - ZA_Server=zabbix-server
+    restart: unless-stopped
+    volumes:
+      - /:/rootfs
+      - /var/run:/var/run
+    networks:
+      - zabbix
+  zabbix-db:
+    image: monitoringartist/zabbix-db-mariadb
+    environment:
+      - MARIADB_USER=zabbix
+      - MARIADB_PASS=my_password
+    volumes:
+      - zabbix-db-backup:/backups
+      - zabbix-db-localtime:/etc/localtime 
+    networks:
+      - zabbix
+    deploy:
+     placement:
+        constraints: [node.role == worker]
+  zabbix:
+    image:  monitoringartist/zabbix-xxl:latest
+    environment:
+      - ZS_DBHost=zabbix-db
+      - ZS_DBUser=zabbix
+      - ZS_DBPassword=my_password
+    depends_on:
+     - zabbix-db
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+    networks:
+      - zabbix
+      - traefik_traefik-net
+    deploy:
+     placement:
+        constraints: [node.role == manager]
+     labels:
+      - "traefik.port=80"
+      - "traefik.docker.network=traefik_traefik-net"
+      - "traefik.frontend.rule=Host:zabbix.example.com"
+networks:
+  traefik_traefik-net:
+    external: true
+  zabbix:
+     driver: overlay
+     ipam:
+      config:
+      - subnet: 172.32.0.0/24
+volumes:
+  zabbix-db-backup:
+   driver: convoy
+  zabbix-db-localtime:
+   driver: convoy      
