@@ -1,0 +1,46 @@
+Deploy a stack:
+
+cd /vagrant/demo/[stackname]
+docker stack deploy -c docker-stack.yml [stackname]
+
+!!! Always deploy traefik first !!!
+
+docker stack deploy -c docker-stack.yml traefik (<=don't change stack name traefik)
+
+View stack deployment progress (and errors)
+docker stack ps --no-trunc [stackname]
+
+view details regarding the task
+docker inspect [task_id] from previous command
+
+view services:
+docker service ls
+
+view logs of a service:
+docker service logs [service_name]
+
+Delete a stack
+docker stack rm [stack_name]
+
+Before redeploying a stack check network are deleted:
+docker network ls
+
+Then wait - redeploying just after deletion may fail
+
+if necessary, delete network:
+docker network rm [stack_name]_[network_name]
+
+Sometime deletion of volume might be needed:
+docker volume ls
+docker network rm [stack_name]_[volume_name] 
+and also on /convoy-nfs:
+sudo rm -Rf [stack_name]_[volume_name]
+
+Credentials:
+Zabbix:
+- Admin (case sensitive)
+- zabbix
+
+Grafana:
+- admin
+- admin
