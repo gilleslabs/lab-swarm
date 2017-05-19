@@ -1,7 +1,7 @@
 version: "3"
 services:
   traefik:
-    image: gtosi/traefik 
+    image: traefik 
     ports:
       - "80:80"
       - "8080:8080"
@@ -25,6 +25,11 @@ services:
       placement:
         constraints: [node.role == manager]
 networks:
+    traefik_default:
+     driver: overlay
+     ipam:
+      config:
+      - subnet: 172.24.0.0/24
     traefik-net:
      driver: overlay
      ipam:

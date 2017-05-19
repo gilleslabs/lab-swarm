@@ -1,39 +1,48 @@
 version: "3"
 services:
-  dockbix-agent-xxl:
-    image: monitoringartist/dockbix-agent-xxl-limited:latest
-    privileged: true
+  zabbix-agent:
+    image: zabbix/zabbix-agent
+    hostname: '{{.Node.ID}}'
     deploy:
      mode: global
     environment:
-       - ZA_Server=zabbix-server
-    restart: unless-stopped
-    volumes:
-      - /:/rootfs
-      - /var/run:/var/run
+       - ZBX_SERVER_HOST=zabbix-server
     networks:
       - zabbix
   zabbix-db:
-    image: monitoringartist/zabbix-db-mariadb
+    image: mysql
     environment:
-      - MARIADB_USER=zabbix
-      - MARIADB_PASS=my_password
+      - MYSQL_ROOT_PASSWORD=secret
     volumes:
-      - zabbix-db-backup:/backups
-      - zabbix-db-localtime:/etc/localtime 
+      - zabbix-db:/var/lib/mysql
+    networks:
+      - zabbix
+    deploy:
+     placement:
+        constraints: [node.role == worker]
+  zabbix-server:
+    image: zabbix/zabbix-server-mysql
+    environment:
+      - DB_SERVER_HOST=zabbix-db
+      - MYSQL_ROOT_PASSWORD=secret
+    depends_on:
+     - zabbix-db
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
     networks:
       - zabbix
     deploy:
      placement:
         constraints: [node.role == worker]
   zabbix:
-    image:  monitoringartist/zabbix-xxl:latest
+    image: zabbix/zabbix-web-nginx-mysql
     environment:
-      - ZS_DBHost=zabbix-db
-      - ZS_DBUser=zabbix
-      - ZS_DBPassword=my_password
+      - DB_SERVER_HOST=zabbix-db
+      - MYSQL_USER=zabbix
+      - MYSQL_PASSWORD=zabbix
+      - ZBX_SERVER_HOST=zabbix-server
     depends_on:
-     - zabbix-db
+     - zabbix-server
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
     networks:
@@ -55,7 +64,5 @@ networks:
       config:
       - subnet: 172.32.0.0/24
 volumes:
-  zabbix-db-backup:
-   driver: convoy
-  zabbix-db-localtime:
-   driver: convoy      
+  zabbix-db:
+   driver: convoy 
