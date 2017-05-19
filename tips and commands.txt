@@ -1,3 +1,7 @@
+View statu of swarm node:
+
+docker node ls
+
 Deploy a stack:
 
 cd /vagrant/demo/[stackname]
@@ -44,3 +48,10 @@ Zabbix:
 Grafana:
 - admin
 - admin
+
+Known issue:
+
+sometime stack deployment take a long time ... just be patient if it takes more than 1 hour, check logs aso.
+
+Reminder:
+After a host reboot /vagrant is no more available
