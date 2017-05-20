@@ -8,3 +8,4 @@ docker run \
  -e "ZA_Server=10.100.192.100"\
  -e "ZA_ServerActive=10.100.192.100" \
  -d monitoringartist/dockbix-agent-xxl-limited:latest
+ 

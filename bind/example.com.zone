@@ -18,15 +18,14 @@ example.com.        1800    IN    NS        ns1.example.com.
 ; -----------------------------------------------------------------------------
 ; pointer records
 ; -----------------------------------------------------------------------------
-ns1                 1800    IN    A         10.100.192.100
-www                 1800    IN    A         10.100.192.100
-
+ns1                 1800    IN    A         10.100.192.200
+www                 1800    IN    A         10.100.192.200
 ; -----------------------------------------------------------------------------
 ; cname records
 ; -----------------------------------------------------------------------------
-wordpress             3600    IN    CNAME     www.example.com.
+swarm              3600    IN    CNAME     www.example.com.
+wordpress          3600    IN    CNAME     www.example.com.
 zabbix             3600    IN    CNAME     www.example.com.
-swarm             3600    IN    CNAME     www.example.com.
 jenkins            3600    IN    CNAME     www.example.com.
 gitlab             3600    IN    CNAME     www.example.com.
 whoami             3600    IN    CNAME     www.example.com.
