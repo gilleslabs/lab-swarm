@@ -1,0 +1,34 @@
+$TTL 1h
+; -----------------------------------------------------------------------------
+; SOA for example.com
+; -----------------------------------------------------------------------------
+
+@ IN SOA ns1.example.com contact.example.com. (
+            2016021501      ; Serial
+            1h              ; Refresh
+            15m             ; Retry
+            1d              ; Expire
+            1h );           ; Negative Cache TTL
+
+; -----------------------------------------------------------------------------
+; zone records
+; -----------------------------------------------------------------------------
+example.com.        1800    IN    NS        ns1.example.com.
+
+; -----------------------------------------------------------------------------
+; pointer records
+; -----------------------------------------------------------------------------
+ns1                 1800    IN    A         10.100.192.100
+www                 1800    IN    A         10.100.192.100
+
+; -----------------------------------------------------------------------------
+; cname records
+; -----------------------------------------------------------------------------
+wordpress             3600    IN    CNAME     www.example.com.
+zabbix             3600    IN    CNAME     www.example.com.
+swarm             3600    IN    CNAME     www.example.com.
+jenkins            3600    IN    CNAME     www.example.com.
+gitlab             3600    IN    CNAME     www.example.com.
+whoami             3600    IN    CNAME     www.example.com.
+vote               3600    IN    CNAME     www.example.com.
+vote-result        3600    IN    CNAME     www.example.com.

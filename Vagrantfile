@@ -16,6 +16,7 @@ Vagrant.configure(2) do |config|
     d.vm.provision :shell, path: "install-docker.sh"
     d.vm.provision :shell, path: "install-nfs.sh"
     d.vm.provision :shell, path: "setup-monitoring.sh"
+    d.vm.provision :shell, path: "install-bind.sh"
     d.vm.provider "virtualbox" do |v|
       v.memory = 2048
 	  v.cpus = 2
