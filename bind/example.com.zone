@@ -32,3 +32,4 @@ gitlab             3600    IN    CNAME     www.example.com.
 whoami             3600    IN    CNAME     www.example.com.
 vote               3600    IN    CNAME     www.example.com.
 vote-result        3600    IN    CNAME     www.example.com.
+

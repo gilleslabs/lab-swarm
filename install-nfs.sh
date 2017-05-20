@@ -1,5 +1,6 @@
 #!/bin/sh
 
+sudo ufw disable
 
 #### Enabling Convoy storage driver plugin migth not be needed to be checked
 wget https://github.com/rancher/convoy/releases/download/v0.5.0/convoy.tar.gz
