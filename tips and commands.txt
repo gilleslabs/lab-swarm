@@ -1,4 +1,4 @@
-View statu of swarm node:
+View status of swarm node:
 
 docker node ls
 
@@ -16,6 +16,9 @@ docker stack ps --no-trunc [stackname]
 
 view details regarding the task
 docker inspect [task_id] from previous command
+
+List stack:
+dokcer stack ls
 
 view services:
 docker service ls
