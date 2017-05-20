@@ -4,7 +4,7 @@ docker node ls
 
 Deploy a stack:
 
-cd /vagrant/demo/[stackname]
+cd demo/[stackname]
 docker stack deploy -c docker-stack.yml [stackname]
 
 !!! Always deploy traefik first !!!
