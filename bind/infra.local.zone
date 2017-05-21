@@ -1,9 +1,9 @@
 $TTL 1h
 ; -----------------------------------------------------------------------------
-; SOA for example.com
+; SOA for infra.local
 ; -----------------------------------------------------------------------------
 
-@ IN SOA ns1.example.com contact.example.com. (
+@ IN SOA ns1.infra.local contact.infra.local. (
             2016021501      ; Serial
             1h              ; Refresh
             15m             ; Retry
@@ -13,23 +13,16 @@ $TTL 1h
 ; -----------------------------------------------------------------------------
 ; zone records
 ; -----------------------------------------------------------------------------
-example.com.        1800    IN    NS        ns1.example.com.
+infra.local.        1800    IN    NS        ns1.infra.local.
 
 ; -----------------------------------------------------------------------------
 ; pointer records
 ; -----------------------------------------------------------------------------
-ns1                 1800    IN    A         10.100.192.200
-www                 1800    IN    A         10.100.192.200
-traefik             1800    IN    A         10.100.192.200
+ns1                 1800    IN    A         10.100.192.100
+www                 1800    IN    A         10.100.192.100
 ; -----------------------------------------------------------------------------
 ; cname records
 ; -----------------------------------------------------------------------------
-swarm              3600    IN    CNAME     www.example.com.
-wordpress          3600    IN    CNAME     www.example.com.
-zabbix             3600    IN    CNAME     www.example.com.
-jenkins            3600    IN    CNAME     www.example.com.
-gitlab             3600    IN    CNAME     www.example.com.
-whoami             3600    IN    CNAME     www.example.com.
-vote               3600    IN    CNAME     www.example.com.
-vote-result        3600    IN    CNAME     www.example.com.
+zabbix              3600    IN    CNAME     www.infra.local.
+grafana          3600    IN    CNAME     www.infra.local.
 

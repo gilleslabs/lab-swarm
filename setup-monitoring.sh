@@ -14,7 +14,7 @@ docker run \
 docker run \
    -d \
    --name zabbix \
-   -p 81:80 \
+   -p 80:80 \
    -p 10051:10051 \
    -v /etc/localtime:/etc/localtime:ro \
    --volumes-from zabbix-ext-all-templates \
