@@ -1,6 +1,6 @@
 #!/bin/sh
 sudo cp -R /vagrant/bind /srv/.
-docker run -d --restart=always\
+docker run -d --restart=always \
 -p 53:53 -p 53:53/udp \
 -p 10000:10000 \
 -v /srv/bind:/etc/bind \
