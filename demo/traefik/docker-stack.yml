@@ -23,6 +23,8 @@ services:
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
     deploy:
+      mode: replicated
+      replicas: 2
       placement:
         constraints: [node.role == manager]
       labels:

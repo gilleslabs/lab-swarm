@@ -52,7 +52,7 @@ sudo sed -i 's|DEFAULT_FORWARD_POLICY="DROP"|DEFAULT_FORWARD_POLICY="ACCEPT"|g' 
 sudo ufw --force reload 
 sudo ufw allow in on eth2 to any port 22 proto tcp
 sudo ufw allow in on eth0 to any port 22 proto tcp
-sudo ufw allow deny on eth1 to any port 22 proto tcp
+sudo ufw deny in on eth1 to any port 22 proto tcp
 sudo ufw allow 2375/tcp
 sudo ufw allow 2376/tcp
 sudo ufw allow 2377/tcp
