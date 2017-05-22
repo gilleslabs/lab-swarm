@@ -72,7 +72,6 @@ Vagrant.configure(2) do |config|
       d.vm.provision :shell, inline: "docker swarm join --token $(cat /vagrant/worker-token) --advertise-addr 10.100.193.20#{i} 10.100.193.200:2377"
 #      d.vm.provision :shell, path: "install-zabbix-agent.sh"
 	  d.vm.provision :shell, inline: "sudo echo nameserver 10.100.194.100 > /run/resolvconf/resolv.conf"
-	  d.vm.provision :shell, inline: "sudo ufw deny in on eth1 to any port 22 proto tcp"
       d.vm.provider "virtualbox" do |v|
         v.memory = 2048
 		v.cpus = 2

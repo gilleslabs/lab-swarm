@@ -27,6 +27,8 @@ services:
     deploy:
      placement:
         constraints: [node.role == worker]
+    volumes:
+      - wp_mysql:/var/lib/mysql
 networks:
   traefik_traefik-net:
     external: true
@@ -37,4 +39,6 @@ networks:
       - subnet: 172.27.0.0/24
 volumes:
   wp_data:
+   driver: convoy
+  wp_mysql:
    driver: convoy
