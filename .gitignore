@@ -1,5 +1,7 @@
 # vagrant stuff
 /.vagrant
+/demo/registry/auth
+/demo/registry/certs
 worker-token
 manager-token
 
