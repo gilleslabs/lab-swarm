@@ -1,0 +1,18 @@
+version: '3'
+services:
+  registry:
+    restart: always
+    image: registry:2
+    ports:
+      - 5000:5000
+    environment:
+      - REGISTRY_HTTP_TLS_CERTIFICATE=/certs/domain.crt
+      - REGISTRY_HTTP_TLS_KEY=/certs/domain.key
+      - REGISTRY_PROXY_REMOTEURL=https://registry-1.docker.io
+    volumes:
+      - data:/var/lib/registry
+      - /certs:/certs
+      - /auth:/auth
+volumes:
+  data:
+    driver: local
