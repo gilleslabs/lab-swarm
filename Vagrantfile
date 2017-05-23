@@ -13,7 +13,7 @@ Vagrant.configure(2) do |config|
     d.vm.hostname = "repo-server"
     d.vm.network "private_network", ip: "10.100.194.10"
 	d.vm.network "private_network", ip: "10.100.193.10"
-	d.vm.provision :shell, inline: "sudo echo nameserver 8.8.8.8 > /etc/resolvconf/resolv.conf.d/base && sudo resolvconf -u"
+	d.vm.provision :shell, inline: "sudo echo nameserver 8.8.8.8 > /run/resolvconf/resolv.conf"
     d.vm.provision :shell, path: "install-docker.sh"
 	d.vm.provision :shell, path: "install-apt-cache.sh"
 	d.vm.provision :shell, path: "setup-registry.sh"
@@ -43,12 +43,13 @@ Vagrant.configure(2) do |config|
     end
   end
   
-  config.vm.define "swarm-manager-1" do |d|
+  config.vm.define "manager-1" do |d|
     d.vm.box = "ubuntu/trusty64"
-    d.vm.hostname = "swarm-manager-1"
+	d.vm.hostname = "manager-1"
     d.vm.network "private_network", ip: "10.100.192.200"
 	d.vm.network "private_network", ip: "10.100.193.200"
-    d.vm.provision :shell, inline: "sudo echo nameserver 10.100.194.100 > /etc/resolvconf/resolv.conf.d/base && sudo resolvconf -u"
+	d.vm.provision :shell, inline: "sudo echo nameserver 10.100.194.100 > /run/resolvconf/resolv.conf"
+    d.vm.provision :shell, path: "vagrant-dns-patch.sh"
 	d.vm.provision :shell, path: "set-apt-cache.sh"
     d.vm.provision :shell, path: "install-docker.sh"
 	d.vm.provision :shell, path: "set-registry.sh"
@@ -64,12 +65,13 @@ Vagrant.configure(2) do |config|
   end
   
   (2..3).each do |i|
-    config.vm.define "swarm-manager-#{i}" do |d|
+    config.vm.define "manager-#{i}" do |d|
       d.vm.box = "ubuntu/trusty64"
-      d.vm.hostname = "swarm-manager-#{i}"
+      d.vm.hostname = "manager-#{i}"
       d.vm.network "private_network", ip: "10.100.192.21#{i}"
 	  d.vm.network "private_network", ip: "10.100.193.21#{i}"
-	  d.vm.provision :shell, inline: "sudo echo nameserver 10.100.194.100 > /etc/resolvconf/resolv.conf.d/base && sudo resolvconf -u"
+	  d.vm.provision :shell, inline: "sudo echo nameserver 10.100.194.100 > /run/resolvconf/resolv.conf"
+      d.vm.provision :shell, path: "vagrant-dns-patch.sh"
 	  d.vm.provision :shell, path: "set-apt-cache.sh"
       d.vm.provision :shell, path: "install-docker.sh"
 	  d.vm.provision :shell, path: "set-registry.sh"
@@ -84,12 +86,13 @@ Vagrant.configure(2) do |config|
   end
   
   (1..3).each do |i|
-    config.vm.define "swarm-worker-#{i}" do |d|
+    config.vm.define "worker-#{i}" do |d|
       d.vm.box = "ubuntu/trusty64"
-      d.vm.hostname = "swarm-worker-#{i}"
+      d.vm.hostname = "worker-#{i}"
       d.vm.network "private_network", ip: "10.100.192.20#{i}"
 	  d.vm.network "private_network", ip: "10.100.193.20#{i}"
-	  d.vm.provision :shell, inline: "sudo echo nameserver 10.100.194.100 > /etc/resolvconf/resolv.conf.d/base && sudo resolvconf -u"
+	  d.vm.provision :shell, inline: "sudo echo nameserver 10.100.194.100 > /run/resolvconf/resolv.conf"
+      d.vm.provision :shell, path: "vagrant-dns-patch.sh"
 	  d.vm.provision :shell, path: "set-apt-cache.sh"
       d.vm.provision :shell, path: "install-docker.sh"
 	  d.vm.provision :shell, path: "set-registry.sh"
