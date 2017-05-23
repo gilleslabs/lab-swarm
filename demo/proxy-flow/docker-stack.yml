@@ -32,7 +32,7 @@ services:
     image: dockersamples/visualizer:stable
     stop_grace_period: 1m30s
     networks:
-      - traefik-net
+      - proxy
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
     deploy:
@@ -49,5 +49,5 @@ networks:
   proxy:
     driver: overlay
     ipam:
-    config:
+     config:
       - subnet: 172.40.0.0/24
