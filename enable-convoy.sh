@@ -23,6 +23,9 @@ sudo ln -s /etc/init/convoy /etc/init.d/convoy
 sudo chmod 755 /etc/init.d/convoy
 sudo service convoy start
 
+sudo cp /vagrant/convoy /etc/init/convoy.conf
+sudo ln -s /etc/init/convoy /etc/init.d/convoy.conf
+sudo chmod 755 /etc/init.d/convoy
 
 sudo echo 10.100.193.100:/convoy-nfs /convoy-nfs nfs auto,nolock > /etc/fstab
 sudo echo 10.100.193.100:/nfs-share /nfs-share nfs auto,nolock >> /etc/fstab
