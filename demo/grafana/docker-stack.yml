@@ -14,6 +14,7 @@ services:
       placement:
         constraints:
           - node.role == manager
+          - node.labels.zone != dmz
 
   grafana:
     image: grafana/grafana
@@ -36,6 +37,7 @@ services:
       placement:
         constraints:
           - node.role == manager
+          - node.labels.zone != dmz
 
   cadvisor:
     image: google/cadvisor
