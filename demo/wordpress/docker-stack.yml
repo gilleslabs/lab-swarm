@@ -6,7 +6,7 @@ services:
      - mysql
     deploy:
      placement:
-        constraints: [node.role == worker]
+        constraints: [node.labels.zone == internal]
      labels:
       - "traefik.port=80"
       - "traefik.docker.network=traefik_traefik-net"
@@ -26,7 +26,7 @@ services:
       - wordpress
     deploy:
      placement:
-        constraints: [node.role == worker]
+        constraints: [node.labels.zone == internal]
     volumes:
       - wp_mysql:/var/lib/mysql
 networks:

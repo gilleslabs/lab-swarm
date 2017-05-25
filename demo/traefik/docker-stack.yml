@@ -14,7 +14,7 @@ services:
     deploy:
       mode: global
       placement:
-        constraints: [node.role == manager]
+        constraints: [node.labels.zone == dmz]
   visualizer:
     image: dockersamples/visualizer:stable
     stop_grace_period: 1m30s

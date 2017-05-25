@@ -18,6 +18,7 @@ services:
     deploy:
       placement:
         constraints: [node.role == manager]
+        constraints: [node.labels.zone != dmz]
   voting-app:
     image: gaiadocker/example-voting-app-vote:good
     networks:

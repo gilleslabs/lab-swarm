@@ -18,7 +18,7 @@ services:
       - zabbix
     deploy:
      placement:
-        constraints: [node.role == worker]
+        constraints: [node.labels.zone == internal]
   zabbix-server:
     image: zabbix/zabbix-server-mysql
     environment:
@@ -32,7 +32,7 @@ services:
       - zabbix
     deploy:
      placement:
-        constraints: [node.role == worker]
+        constraints: [node.labels.zone == internal]
   zabbix:
     image: zabbix/zabbix-web-nginx-mysql
     environment:
@@ -50,6 +50,7 @@ services:
     deploy:
      placement:
         constraints: [node.role == manager]
+        constraints: [node.labels.zone != dmz]
      labels:
       - "traefik.port=80"
       - "traefik.docker.network=traefik_traefik-net"

@@ -64,27 +64,6 @@ Vagrant.configure(2) do |config|
     end
   end
   
-  (2..3).each do |i|
-    config.vm.define "manager-#{i}" do |d|
-      d.vm.box = "ubuntu/trusty64"
-      d.vm.hostname = "manager-#{i}"
-      d.vm.network "private_network", ip: "10.100.192.21#{i}"
-	  d.vm.network "private_network", ip: "10.100.193.21#{i}"
-	  d.vm.provision :shell, inline: "sudo echo nameserver 10.100.194.100 > /run/resolvconf/resolv.conf"
-      d.vm.provision :shell, path: "vagrant-dns-patch.sh"
-	  d.vm.provision :shell, path: "set-apt-cache.sh"
-      d.vm.provision :shell, path: "install-docker.sh"
-	  d.vm.provision :shell, path: "set-registry.sh"
-	  d.vm.provision :shell, path: "enable-convoy.sh"
-      d.vm.provision :shell, inline: "docker swarm join --token $(cat /vagrant/manager-token) --advertise-addr 10.100.193.21#{i} 10.100.193.200:2377"
-      d.vm.provision :shell, path: "install-zabbix-agent.sh"
-      d.vm.provider "virtualbox" do |v|
-        v.memory = 1024
-	    v.cpus = 2
-      end
-    end
-  end
-  
   (1..3).each do |i|
     config.vm.define "worker-#{i}" do |d|
       d.vm.box = "ubuntu/trusty64"
@@ -105,5 +84,54 @@ Vagrant.configure(2) do |config|
       end
     end
   end
+  
+  (1..2).each do |i|
+    config.vm.define "dmz-#{i}" do |d|
+      d.vm.box = "ubuntu/trusty64"
+      d.vm.hostname = "dmz-#{i}"
+      d.vm.network "private_network", ip: "10.100.195.22#{i}"
+	  d.vm.network "private_network", ip: "10.100.193.22#{i}"
+	  d.vm.provision :shell, inline: "sudo echo nameserver 10.100.194.100 > /run/resolvconf/resolv.conf"
+      d.vm.provision :shell, path: "vagrant-dns-patch.sh"
+	  d.vm.provision :shell, path: "set-apt-cache.sh"
+      d.vm.provision :shell, path: "install-docker.sh"
+	  d.vm.provision :shell, path: "set-registry.sh"
+	  d.vm.provision :shell, path: "enable-convoy.sh"
+      d.vm.provision :shell, inline: "docker swarm join --token $(cat /vagrant/manager-token) --advertise-addr 10.100.193.22#{i} 10.100.193.200:2377"
+      d.vm.provision :shell, path: "install-zabbix-agent.sh"
+      d.vm.provider "virtualbox" do |v|
+        v.memory = 1024
+		v.cpus = 2
+      end
+    end
+  end
+  
+  (2..3).each do |i|
+    config.vm.define "manager-#{i}" do |d|
+      d.vm.box = "ubuntu/trusty64"
+      d.vm.hostname = "manager-#{i}"
+      d.vm.network "private_network", ip: "10.100.192.21#{i}"
+	  d.vm.network "private_network", ip: "10.100.193.21#{i}"
+	  d.vm.provision :shell, inline: "sudo echo nameserver 10.100.194.100 > /run/resolvconf/resolv.conf"
+      d.vm.provision :shell, path: "vagrant-dns-patch.sh"
+	  d.vm.provision :shell, path: "set-apt-cache.sh"
+      d.vm.provision :shell, path: "install-docker.sh"
+	  d.vm.provision :shell, path: "set-registry.sh"
+	  d.vm.provision :shell, path: "enable-convoy.sh"
+      d.vm.provision :shell, inline: "docker swarm join --token $(cat /vagrant/manager-token) --advertise-addr 10.100.193.21#{i} 10.100.193.200:2377"
+	  d.vm.provision :shell, inline: "docker node update --label-add zone=dmz dmz-1"
+	  d.vm.provision :shell, inline: "docker node update --label-add zone=dmz dmz-2"
+	  d.vm.provision :shell, inline: "docker node update --label-add zone=internal worker-1"
+	  d.vm.provision :shell, inline: "docker node update --label-add zone=internal worker-2"
+      d.vm.provision :shell, inline: "docker node update --label-add zone=internal worker-3"
+      d.vm.provision :shell, path: "install-zabbix-agent.sh"
+      d.vm.provider "virtualbox" do |v|
+        v.memory = 1024
+	    v.cpus = 2
+      end
+    end
+  end
+  
+  
   
 end

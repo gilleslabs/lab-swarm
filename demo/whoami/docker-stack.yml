@@ -8,7 +8,7 @@ services:
      labels:
       - "traefik.port=80"
       - "traefik.docker.network=traefik_traefik-net"
-      - "traefik.frontend.rule=Host:whoami0.example.com"
+      - "traefik.frontend.rule=Host:whoami.example.com"
     networks:
       - web
       - traefik_traefik-net

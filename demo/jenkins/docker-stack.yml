@@ -4,7 +4,7 @@ services:
     image: jenkinsci/jenkins
     deploy:
      placement:
-        constraints: [node.role == worker]
+        constraints: [node.labels.zone == internal]
      labels:
       - "traefik.port=8080"
       - "traefik.docker.network=traefik_traefik-net"
