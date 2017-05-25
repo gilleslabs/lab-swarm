@@ -26,7 +26,9 @@ services:
       mode: replicated
       replicas: 2
       placement:
-        constraints: [node.role == manager]
+        constraints: 
+          - [node.role == manager]
+          - [node.labels.zone != dmz]
       labels:
        - "traefik.port=8080"
        - "traefik.docker.network=traefik_traefik-net"
