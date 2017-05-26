@@ -97,7 +97,7 @@ Vagrant.configure(2) do |config|
       d.vm.provision :shell, path: "install-docker.sh"
 	  d.vm.provision :shell, path: "set-registry.sh"
 	  d.vm.provision :shell, path: "enable-convoy.sh"
-      d.vm.provision :shell, inline: "docker swarm join --token $(cat /vagrant/manager-token) --advertise-addr 10.100.193.22#{i} 10.100.193.200:2377"
+      d.vm.provision :shell, inline: "docker swarm join --token $(cat /vagrant/worker-token) --advertise-addr 10.100.193.22#{i} 10.100.193.200:2377"
       d.vm.provision :shell, path: "install-zabbix-agent.sh"
       d.vm.provider "virtualbox" do |v|
         v.memory = 1024

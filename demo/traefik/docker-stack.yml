@@ -8,13 +8,25 @@ services:
       - "443:443"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
-    command: --docker --docker.swarmmode --docker.domain=example.com --docker.watch --logLevel=DEBUG --web
+    command: --docker --docker.swarmmode --docker.domain=example.com --docker.watch --logLevel=DEBUG --docker.endpoint=tcp://socat:2375 --web
     networks:
+      - socat
       - traefik-net
     deploy:
       mode: global
       placement:
         constraints: [node.labels.zone == dmz]
+  socat:
+    image: rancher/socat-docker
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - socat
+    deploy:
+      mode: replicated
+      replicas: 2
+      placement:
+        constraints: [node.role == manager]
   visualizer:
     image: dockersamples/visualizer:stable
     stop_grace_period: 1m30s
@@ -28,7 +40,6 @@ services:
       placement:
         constraints: 
           - node.role == manager
-          - node.labels.zone != dmz
       labels:
        - "traefik.port=8080"
        - "traefik.docker.network=traefik_traefik-net"
@@ -44,3 +55,8 @@ networks:
      ipam:
       config:
       - subnet: 172.25.0.0/24
+    socat:
+     driver: overlay
+     ipam:
+      config:
+      - subnet: 172.23.0.0/24
