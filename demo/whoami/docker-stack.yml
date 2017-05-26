@@ -4,7 +4,9 @@ services:
     image: emilevauge/whoami
     deploy:
      placement:
-        constraints: [node.role == worker]
+        constraints: 
+         - node.role == worker
+         - node.labels.zone != dmz
      labels:
       - "traefik.port=80"
       - "traefik.docker.network=traefik_traefik-net"

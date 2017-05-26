@@ -14,8 +14,6 @@ services:
       placement:
         constraints:
           - node.role == manager
-          - node.labels.zone != dmz
-
   grafana:
     image: grafana/grafana
     depends_on:
@@ -37,8 +35,6 @@ services:
       placement:
         constraints:
           - node.role == manager
-          - node.labels.zone != dmz
-
   cadvisor:
     image: google/cadvisor
     hostname: '{{.Node.ID}}'

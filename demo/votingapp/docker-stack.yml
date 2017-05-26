@@ -18,7 +18,6 @@ services:
     deploy:
       placement:
         constraints: [node.role == manager]
-        constraints: [node.labels.zone != dmz]
   voting-app:
     image: gaiadocker/example-voting-app-vote:good
     networks:
@@ -35,7 +34,9 @@ services:
       - "traefik.frontend.rule=Host:vote.example.com"
       - "APP=VOTING"
       placement:
-        constraints: [node.role == worker]
+        constraints: 
+          - node.role == worker
+          - node.labels.zone != dmz
   result-app:
     image: gaiadocker/example-voting-app-result:latest
     deploy:
@@ -87,7 +88,7 @@ services:
         max_failure_ratio: 0.3
       # placement constraint - in this case on 'worker' nodes only
       placement:
-        constraints: [node.role == worker]
+        constraints: [node.labels.zone == internal]
 networks:
     voteapp:
     traefik_traefik-net:
