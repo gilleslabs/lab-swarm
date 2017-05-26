@@ -1,0 +1,33 @@
+version: "3"
+services:
+  hpoo:
+    image: hpsoftware/ooce:10.70.2
+    deploy:
+     placement:
+        constraints: [node.labels.zone == internal]
+     labels:
+      - "traefik.port=8080"
+      - "traefik.docker.network=traefik_traefik-net"
+      - "traefik.frontend.rule=Host:hpoo.example.com"
+    networks:
+      - hpoo
+      - traefik_traefik-net
+    volumes:
+        -  postgre:/etc/postgresql
+        -  postgre_log:/var/log/postgresql
+        -  postgre_lib:/var/lib/postgresql
+networks:
+  traefik_traefik-net:
+    external: true
+  hpoo:
+     driver: overlay
+     ipam:
+      config:
+      - subnet: 172.129.0.0/24
+volumes:
+  postgre:
+   driver: convoy
+  postgre_log:
+   driver: convoy
+  postgre_lib:
+   driver: convoy
